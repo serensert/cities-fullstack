@@ -41,7 +41,6 @@ public class InitializerServiceImpl {
 			boolean firstSkipped = false;
 			int samecounter = 0;
 			HashMap<String, String> cities = new HashMap<>();
-			int counter = 0;
 			for (CSVRecord record : records) {
 				if (!firstSkipped) {
 					firstSkipped = true;

@@ -8,6 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,15 +26,23 @@ public class ImageServiceImpl implements ImageService{
 	@Value("${images.path}")
     private String imagesPath;
 	
+    private String imagesPathOSDependent;
+
+	
 	private CityService cityService;
 	
 	public ImageServiceImpl(CityService cityService) {
 		this.cityService = cityService;
 	}
+	
+	@PostConstruct
+	private void postContruct( ) {
+		imagesPathOSDependent = imagesPath.replace("[PATH_SEPARATOR]", File.separator);
+	}
 
     public boolean save(MultipartFile file, long id, String extension) {
         try {
-            Path root = Paths.get(imagesPath);
+            Path root = Paths.get(imagesPathOSDependent);
             Path resolve = root.resolve(id + "." + extension);
             Files.copy(file.getInputStream(), resolve, StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception e) {
@@ -43,7 +53,7 @@ public class ImageServiceImpl implements ImageService{
     
     public boolean save(String url, long id) {
         try {
-            Path root = Paths.get(imagesPath);
+            Path root = Paths.get(imagesPathOSDependent);
 	    	String extension = url.substring(url.lastIndexOf(".") + 1);
             Path resolve = root.resolve(id + "." + extension);
             File file = new File(resolve.toString());
@@ -86,7 +96,7 @@ public class ImageServiceImpl implements ImageService{
 	@Override
 	public byte[] getImageAsByteArray(String filename) {
         try {
-            return FileUtils.readFileToByteArray(new File(imagesPath + filename));
+            return FileUtils.readFileToByteArray(new File(imagesPathOSDependent + filename));
         } catch (IOException e) {
             System.out.println("Image could not be found: " + filename);
         }
