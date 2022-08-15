@@ -1,0 +1,57 @@
+<div *ngIf="viewMode; else editable">
+  <div *ngIf="currentCity.id">
+    <h4>City</h4>
+    <div>
+      <label><strong>Name:</strong></label> {{ currentCity.name }}
+    </div>
+
+    <a
+      class="badge badge-warning"
+      routerLink="/cities/{{ currentCity.id }}"
+    >
+      Edit
+    </a>
+  </div>
+
+  <div *ngIf="!currentCity">
+    <br />
+    <p>Please click on a City...</p>
+  </div>
+</div>
+
+<ng-template #editable>
+  <div class="col-lg-4">
+    <h4>City</h4>
+    <app-upload-file
+    [currentCity]="currentCity"
+    ></app-upload-file>
+  </div>
+  <div *ngIf="currentCity.id" class="edit-form">
+    <form>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          [(ngModel)]="currentCity.name"
+          name="name"
+        />
+      </div>
+    </form>
+
+    <button
+      type="submit"
+      class="badge badge-success mb-2"
+      (click)="updateCity()"
+    >
+      Update
+    </button>
+    <p>{{ message }}</p>
+  </div>
+
+  <div *ngIf="!currentCity.id">
+    <br />
+    <p>Cannot access this City...</p>
+  </div>
+</ng-template>

@@ -1,0 +1,14 @@
+.list {
+  text-align: left;
+  max-width: 1000px;
+  margin: auto;
+}
+
+img {
+  object-fit: contain;
+}
+
+img:hover {
+  height: 100%;
+  width: auto;
+}
