@@ -4,6 +4,7 @@ Full-stack City Listing WebApp with Angular 14 + Spring Boot
 - Dynamic images are browser cached, CDN friendly
 - Any update of image invalidates cache immidiately
 - Images are stored on the file system
+- h2 with persistance used
 
 ## Installation
 
