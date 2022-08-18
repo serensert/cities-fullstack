@@ -4,6 +4,11 @@
     <div>
       <label><strong>Name:</strong></label> {{ currentCity.name }}
     </div>
+    <br>
+    <div>
+      <img src="/images/{{currentCity.id}}.{{currentCity.extension}}?v={{currentCity.version}}" alt="Image not found!">
+    </div>
+
 
     <a
       class="badge badge-warning"
@@ -26,6 +31,11 @@
     [currentCity]="currentCity"
     ></app-upload-file>
   </div>
+  <br>
+  <div>
+    <img src="/images/{{currentCity.id}}.{{currentCity.extension}}?v={{currentCity.version}}" alt="Image not found!">
+  </div>
+  <br>
   <div *ngIf="currentCity.id" class="edit-form">
     <form>
       <div class="form-group">

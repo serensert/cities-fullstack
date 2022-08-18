@@ -38,8 +38,16 @@
         [class.active]="i == currentIndex"
         (click)="setActiveCity(city, i)"
       >
-        {{ city.name }}
-        <img src="/images/{{city.id}}.{{city.extension}}?v={{city.version}}" alt="Image not found!" width="150" height="150">
+        <table width="100%">
+          <tr>
+            <td width="40%">
+              {{ city.name }}
+            </td>
+            <td width="60%" align="right" valign="middle">
+              <img src="/images/{{city.id}}.{{city.extension}}?v={{city.version}}" alt="Image not found!" width="150" height="150">
+            </td>
+          </tr>
+        </table>
       </li>
     </ul>
     <div class="mt-3">
