@@ -4,11 +4,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface ImageService {
 
-	public boolean save(MultipartFile file, long id, String extension);
-	
-	public boolean save(String url, long id);
+	void save(MultipartFile file, long id, String extension);
 
-	public boolean uploadImage(MultipartFile imageFile, long id);
+	void save(String url, long id);
 
-	public byte[] getImageAsByteArray(String filename);
+	void uploadImage(MultipartFile imageFile, long id);
+
+	byte[] getImageAsByteArray(String filename);
 }

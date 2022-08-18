@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import net.seren.cities.exception.CityAlreadyDefinedException;
+import net.seren.cities.exception.CityNotFoundException;
 import net.seren.cities.model.City;
 import net.seren.cities.repository.CityRepository;
 import net.seren.cities.service.CityService;
@@ -14,48 +16,55 @@ import net.seren.cities.service.CityService;
 public class CityServiceImpl implements CityService {
 
 	private CityRepository cityRepository;
+
 	
 	public CityServiceImpl (CityRepository cityRepository){
 		this.cityRepository = cityRepository;
 	}
 
-	public City getCityById(long id) {
-		Optional<City> city = cityRepository.findById(id);
-		return city.isPresent()?city.get():null;		
+	@Override
+	public Optional<City> getCityById(long id) {
+		return cityRepository.findById(id);	
 	}
 
+	@Override
 	public Page<City> findAll(Pageable paging) {
 		return cityRepository.findAll(paging);
 	}
 
+	@Override
 	public Page<City> findByName(String name, Pageable paging) {
-		// TODO Auto-generated method stub
 		return cityRepository.findByNameContainingIgnoreCase(name, paging);
 	}
 
-	public City updateCity(long id, City city) {
+	@Override
+	public City updateCity(long id, City updatedCity) {
 		Optional<City> cityData = cityRepository.findById(id);
-
-		if (cityData.isPresent()) {
-			City _city = cityData.get();
-			System.out.println(_city.getId());
-			_city.setName(city.getName());
-			_city.setVersion(city.getVersion());
-			_city.setExtension(city.getExtension());
-			return cityRepository.save(_city);
-		} else {
-			return null;
+		
+		if (cityData.isEmpty()) {
+			throw new CityNotFoundException();
 		}
+		
+		Optional<City> cityDataByName = findByName(updatedCity.getName());
+		
+		if (cityDataByName.isPresent() && cityDataByName.get().getId() != id) {
+			throw new CityAlreadyDefinedException(updatedCity.getName());
+		}
+
+		City city = cityData.get();
+		city.setName(updatedCity.getName());
+		city.setVersion(updatedCity.getVersion());
+		city.setExtension(updatedCity.getExtension());
+		return cityRepository.save(city);
 	}
 
 	@Override
-	public City findByName(String cityName) {
-		Optional<City> city = cityRepository.findByName(cityName);
-		return city.isPresent() ? city.get() : null;
+	public Optional<City> findByName(String cityName) {
+		return cityRepository.findByName(cityName);
 	}
 
 	@Override
-	public City save(City city) {
+	public City createCity(City city) {
 		return cityRepository.save(city);
 	}
 

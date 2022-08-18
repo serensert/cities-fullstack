@@ -52,7 +52,7 @@ export class CityDetailsComponent implements OnInit {
           console.log(res);
           this.message = res.message ? res.message : 'This city was updated successfully!';
         },
-        error: (e) => console.error(e)
+        error: (e) => this.message = e.error
       });
   }
 

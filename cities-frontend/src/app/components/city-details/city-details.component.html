@@ -20,7 +20,7 @@
 </div>
 
 <ng-template #editable>
-  <div class="col-lg-4">
+  <div *ngIf="currentCity.id" class="col-lg-12">
     <h4>City</h4>
     <app-upload-file
     [currentCity]="currentCity"

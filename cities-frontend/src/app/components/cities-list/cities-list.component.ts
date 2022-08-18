@@ -43,9 +43,9 @@ export class CitiesListComponent implements OnInit {
     const params = this.getRequestParams(this.name, this.page, this.pageSize);
     this.cityService.getAll(params)
       .subscribe(response => {
-        const { cities, totalItems } = response;
-        this.cities = cities;
-        this.count = totalItems;
+        const { content, totalElements } = response;
+        this.cities = content;
+        this.count = totalElements;
         console.log(response);
       },
       error => {

@@ -56,7 +56,6 @@ public class City {
 		this.extension = extension;
 	}
 
-
 	@Override
 	public String toString() {
 		return "City [id=" + id + ", name=" + name + ", version=" + version + ", extension=" + extension + "]";

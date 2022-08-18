@@ -21,22 +21,25 @@ import net.seren.cities.service.impl.ImageServiceImpl;
 @RestController
 @RequestMapping("/images")
 public class ImageController {
-	
-    private ImageService imageService;
-	
+
+	private ImageService imageService;
+
 	public ImageController(ImageServiceImpl imageService) {
 		this.imageService = imageService;
 	}
-	
+
 	@GetMapping("/{filename}")
-    public ResponseEntity<byte[]> getImage(@PathVariable("filename") String filename) {
-    	byte[] image = imageService.getImageAsByteArray(filename);
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).cacheControl(CacheControl.maxAge(360, TimeUnit.DAYS)).body(image);
-    }
-    
-    @PostMapping("/{id}")
-    public ResponseEntity<UploadResponseMessage> uploadImage(@RequestParam("image") MultipartFile imageFile, @PathVariable("id") long id) {
-    	return imageService.uploadImage(imageFile, id) ? ResponseEntity.status(HttpStatus.OK).body(new UploadResponseMessage("Success")) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+	public ResponseEntity<byte[]> getImage(@PathVariable("filename") String filename) {
+		byte[] image = imageService.getImageAsByteArray(filename);
+		return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG)
+				.cacheControl(CacheControl.maxAge(360, TimeUnit.DAYS)).body(image);
+	}
+
+	@PostMapping("/{id}")
+	public ResponseEntity<UploadResponseMessage> uploadImage(@RequestParam("image") MultipartFile imageFile,
+			@PathVariable("id") long id) {
+		imageService.uploadImage(imageFile, id);
+		return ResponseEntity.status(HttpStatus.OK).body(new UploadResponseMessage("Success"));				
+	}
 
 }

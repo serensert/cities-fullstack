@@ -1,13 +1,15 @@
 package net.seren.cities.service;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import net.seren.cities.model.City;
 
 public interface CityService {
-	
-	City getCityById(long id);
+
+	Optional<City> getCityById(long id);
 
 	Page<City> findAll(Pageable paging);
 
@@ -15,8 +17,8 @@ public interface CityService {
 
 	City updateCity(long id, City city);
 
-	City findByName(String cityName);
+	Optional<City> findByName(String cityName);
 
-	City save(City c);
+	City createCity(City c);
 
 }
